@@ -1,8 +1,23 @@
 const router = require('express').Router();
 const { Workout } = require('../models');
 
+router.get('/api/workouts', (req, res) => {
+    Workout.find()
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => console.log(err));
+});
 
-
+router.put('/api/workouts/:id', (req, res) => {
+    const id = req.params.id;
+    const body =req.body;
+    Workout.updateOne({_id: id}, {$push: {exercises: body}})
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((err) => console.log(err));
+});
 
 
 module.exports = router;
